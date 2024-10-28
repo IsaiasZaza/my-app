@@ -1,17 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { motion } from "framer-motion";
 import { Modal, Box, Typography, Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 
-// Dados dos presentes
-const gifts = [
+// Dados iniciais dos presentes
+const initialGifts = [
     { id: 1, name: "Conjunto de Panelas", image: "/panelas.jpg", available: 5 },
-    { id: 2, name: "Jogo de Talheres", image: "/talheres.jpg", available: 2 },
-    { id: 3, name: "Aparelho de Jantar", image: "/jantar.jpg", available: 0 },
-    { id: 4, name: "Liquidificador", image: "/liquidificador.jpg", available: 3 },
+    { id: 2, name: "Conjunto de Panelas", image: "/panelas.jpg", available: 5 },
+    { id: 3, name: "Jogo de Talheres", image: "/talheres.jpg", available: 2 },
+    { id: 4, name: "Aparelho de Jantar", image: "/jantar.jpg", available: 0 },
+    { id: 5, name: "Liquidificador", image: "/liquidificador.jpg", available: 3 },
+    { id: 6, name: "dsd", image: "/liquidificador.jpg", available: 3 },
 ];
 
 // Estilo para o modal do Material-UI
@@ -30,15 +32,26 @@ const modalStyle = {
 };
 
 export default function GiftList() {
+    const [gifts, setGifts] = useState(initialGifts); // Estado inicial com presentes padrão
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedGift, setSelectedGift] = useState(null);
     const [selectedQuantity, setSelectedQuantity] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
 
+    // Carregar os presentes do localStorage após a montagem do componente
+    useEffect(() => {
+        const storedGifts = localStorage.getItem("gifts");
+        if (storedGifts) {
+            setGifts(JSON.parse(storedGifts));
+        }
+    }, []);
+
     const openModal = (gift) => {
-        setSelectedGift(gift);
-        setModalIsOpen(true);
+        if (gift.available > 0) {
+            setSelectedGift(gift);
+            setModalIsOpen(true);
+        }
     };
 
     const closeModal = () => {
@@ -62,14 +75,29 @@ export default function GiftList() {
     };
 
     const handleSubmit = () => {
-        // Implementar lógica de submissão aqui, como enviar os dados para o servidor
+        // Simular o envio dos dados para um servidor
+        console.log("Dados do presente confirmados:", {
+            gift: selectedGift.name,
+            quantity: selectedQuantity,
+            name,
+            email,
+        });
+
+        // Remove o presente da lista
+        const updatedGifts = gifts.filter(gift => gift.id !== selectedGift.id);
+        setGifts(updatedGifts);
+
+        // Armazenar a lista atualizada no localStorage
+        localStorage.setItem("gifts", JSON.stringify(updatedGifts));
+
+        // Fechar o modal após a submissão
         closeModal();
     };
 
     return (
         <div className="max-w-5xl mx-auto p-8 space-y-8">
             <h2 className="text-3xl font-bold text-center text-green-900">Lista de Presentes</h2>
-            
+
             <Swiper
                 spaceBetween={16}
                 slidesPerView={1}
@@ -88,7 +116,7 @@ export default function GiftList() {
                             initial={{ opacity: 0, y: 50 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5 }}
-                            className="bg-white rounded-lg shadow-lg overflow-hidden"
+                            className={`bg-white rounded-lg shadow-lg overflow-hidden ${gift.available <= 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
                             <img src={gift.image} alt={gift.name} className="w-full h-48 object-cover" />
                             <div className="p-4 text-center">
@@ -96,6 +124,7 @@ export default function GiftList() {
                                 <button
                                     onClick={() => openModal(gift)}
                                     className="mt-4 px-6 py-2 bg-green-900 text-white rounded-full hover:bg-green-700 transition-colors duration-200"
+                                    disabled={gift.available <= 0}
                                 >
                                     Ver Mais
                                 </button>
@@ -105,7 +134,7 @@ export default function GiftList() {
                 ))}
             </Swiper>
 
-            {/* Modal */}
+            {/* Modal de Detalhes */}
             <Modal open={modalIsOpen} onClose={closeModal}>
                 <Box sx={modalStyle}>
                     {selectedGift && (
