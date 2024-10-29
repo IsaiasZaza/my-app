@@ -7,6 +7,7 @@ import "swiper/css";
 import { motion } from "framer-motion";
 import { Modal, Box, Typography, Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import "@fontsource/roboto";
+import Image from "next/image";
 
 // Dados iniciais dos presentes
 const initialGifts = [
@@ -141,7 +142,7 @@ export default function GiftList() {
                             className={`bg-white rounded-lg shadow-lg overflow-hidden ${gift.available <= 0 ? 'opacity-50 cursor-not-allowed' : ''
                                 }`}
                         >
-                            <img src={gift.image} alt={gift.name} className="w-full h-48 object-cover" />
+                            <Image width={300} height={300} src={gift.image} alt={gift.name} className="w-full h-72 object-cover" />
                             <div className="p-4 text-center">
                                 <h3 className="text-xl font-semibold text-green-900">{gift.name}</h3>
                                 <button
