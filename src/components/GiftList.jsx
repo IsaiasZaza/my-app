@@ -2,18 +2,32 @@
 
 import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
 import "swiper/css";
 import { motion } from "framer-motion";
 import { Modal, Box, Typography, Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
+import "@fontsource/roboto";
 
 // Dados iniciais dos presentes
 const initialGifts = [
-    { id: 1, name: "Conjunto de Panelas", image: "/panelas.jpg", available: 5 },
-    { id: 2, name: "Conjunto de Panelas", image: "/panelas.jpg", available: 5 },
-    { id: 3, name: "Jogo de Talheres", image: "/talheres.jpg", available: 2 },
-    { id: 4, name: "Aparelho de Jantar", image: "/jantar.jpg", available: 0 },
-    { id: 5, name: "Liquidificador", image: "/liquidificador.jpg", available: 3 },
-    { id: 6, name: "dsd", image: "/liquidificador.jpg", available: 3 },
+    { id: 1, name: "Armazenamento", image: "/aramazenamento.jpg", available: 3 },
+    { id: 2, name: "Bolo", image: "/bolo.jpg", available: 3 },
+    { id: 3, name: "Copos", image: "/copos.jpg", available: 3 },
+    { id: 4, name: "Escorredor", image: "/escorredor.jpg", available: 3 },
+    { id: 5, name: "Formas de Bolo", image: "/formas de bolo.jpg", available: 3 },
+    { id: 6, name: "Jogo de Pratos", image: "/jogo de pratos.jpg", available: 3 },
+    { id: 7, name: "Jogo de Sobremesa", image: "/jogo de sobremesa.jpg", available: 3 },
+    { id: 8, name: "Jogo de Talheres", image: "/jogo de talheres.jpg", available: 3 },
+    { id: 9, name: "Jogo de Trave", image: "/jogotrave.jpg", available: 3 },
+    { id: 10, name: "Jogo de Vasilhas", image: "/jogovasilhas.jpg", available: 3 },
+    { id: 11, name: "Lixeira Inox", image: "/lixeira inox.jpg", available: 3 },
+    { id: 12, name: "Medidora", image: "/medidora.jpg", available: 5 },
+    { id: 13, name: "Temperos", image: "/temperos.jpg", available: 5 },
+    { id: 14, name: "Tigela", image: "/tigeja.jpg", available: 5 },
+    { id: 15, name: "Travessas", image: "/travessas.jpg", available: 5 },
+    { id: 16, name: "Vidro", image: "/vidro.jpg", available: 3 },
+    { id: 17, name: "Xícaras", image: "/xicaras.jpg", available: 3 },
+    { id: 18, name: "teste", image: "/xicaras.jpg", available: 50 }
 ];
 
 // Estilo para o modal do Material-UI
@@ -37,7 +51,7 @@ export default function GiftList() {
     const [selectedGift, setSelectedGift] = useState(null);
     const [selectedQuantity, setSelectedQuantity] = useState("");
     const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
 
     // Carregar os presentes do localStorage após a montagem do componente
     useEffect(() => {
@@ -59,7 +73,7 @@ export default function GiftList() {
         setSelectedGift(null);
         setSelectedQuantity("");
         setName("");
-        setEmail("");
+        setMessage("");
     };
 
     const handleQuantityChange = (event) => {
@@ -70,24 +84,26 @@ export default function GiftList() {
         setName(event.target.value);
     };
 
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value);
+    const handleMessageChange = (event) => {
+        setMessage(event.target.value);
     };
 
     const handleSubmit = () => {
-        // Simular o envio dos dados para um servidor
-        console.log("Dados do presente confirmados:", {
-            gift: selectedGift.name,
-            quantity: selectedQuantity,
-            name,
-            email,
-        });
+        const whatsappNumber = "+5561986183812";
+        const thankYouMessage = `Obrigado por escolher um presente para o casal! 🎉\n\nDetalhes:\n- Presente: ${selectedGift.name}\n- Quantidade: ${selectedQuantity}\n- Nome: ${name}\n- Mensagem para o casal: ${message || "Nenhuma mensagem"}\n`;
 
-        // Remove o presente da lista
-        const updatedGifts = gifts.filter(gift => gift.id !== selectedGift.id);
+        // Link para envio no WhatsApp
+        const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(thankYouMessage)}`;
+        window.open(whatsappLink, "_blank");
+
+        // Atualiza a quantidade do presente selecionado
+        const updatedGifts = gifts.map(gift =>
+            gift.id === selectedGift.id
+                ? { ...gift, available: gift.available - selectedQuantity }
+                : gift
+        ).filter(gift => gift.available > 0); // Remove itens esgotados
+
         setGifts(updatedGifts);
-
-        // Armazenar a lista atualizada no localStorage
         localStorage.setItem("gifts", JSON.stringify(updatedGifts));
 
         // Fechar o modal após a submissão
@@ -95,9 +111,8 @@ export default function GiftList() {
     };
 
     return (
-        <div className="max-w-5xl mx-auto p-8 space-y-8">
+        <div className="max-w-5xl mx-auto p-8 space-y-8 font-roboto" id="giftList">
             <h2 className="text-3xl font-bold text-center text-green-900">Lista de Presentes</h2>
-
             <Swiper
                 spaceBetween={16}
                 slidesPerView={1}
@@ -106,8 +121,15 @@ export default function GiftList() {
                     1024: { slidesPerView: 3 },
                 }}
                 loop={true}
-                className="flex justify-center"
+                navigation={{
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                }}
+                modules={[Navigation]}
+                className="relative flex justify-center"
             >
+                <div className="swiper-button-prev text-green-900 -left-6 hover:text-green-700 transition-colors duration-200"></div>
+                <div className="swiper-button-next text-green-900 -right-6 hover:text-green-700 transition-colors duration-200"></div>
                 {gifts.map((gift) => (
                     <SwiperSlide key={gift.id}>
                         <motion.div
@@ -116,7 +138,8 @@ export default function GiftList() {
                             initial={{ opacity: 0, y: 50 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5 }}
-                            className={`bg-white rounded-lg shadow-lg overflow-hidden ${gift.available <= 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`bg-white rounded-lg shadow-lg overflow-hidden ${gift.available <= 0 ? 'opacity-50 cursor-not-allowed' : ''
+                                }`}
                         >
                             <img src={gift.image} alt={gift.name} className="w-full h-48 object-cover" />
                             <div className="p-4 text-center">
@@ -133,6 +156,7 @@ export default function GiftList() {
                     </SwiperSlide>
                 ))}
             </Swiper>
+
 
             {/* Modal de Detalhes */}
             <Modal open={modalIsOpen} onClose={closeModal}>
@@ -154,11 +178,12 @@ export default function GiftList() {
 
                             <FormControl fullWidth margin="normal">
                                 <TextField
-                                    label="Seu Email"
+                                    label="Mensagem para o Casal (opcional)"
                                     variant="outlined"
-                                    type="email"
-                                    value={email}
-                                    onChange={handleEmailChange}
+                                    value={message}
+                                    onChange={handleMessageChange}
+                                    multiline
+                                    rows={4}
                                 />
                             </FormControl>
 
@@ -178,19 +203,13 @@ export default function GiftList() {
                                 </Select>
                             </FormControl>
 
-                            {selectedGift.available <= 0 && (
-                                <Typography variant="body1" color="text.secondary" className="mt-2">
-                                    Indisponível no momento.
-                                </Typography>
-                            )}
-
                             <Button
                                 variant="contained"
                                 color="success"
                                 fullWidth
                                 onClick={handleSubmit}
                                 sx={{ mt: 3 }}
-                                disabled={!name || !email || !selectedQuantity}
+                                disabled={!name || !selectedQuantity}
                             >
                                 Confirmar Presente
                             </Button>

@@ -8,7 +8,7 @@ export default function ParallaxSection() {
             style={{ backgroundImage: "url('/parallax.jpg')" }} // Substitua pela imagem desejada
         >
             <div className="bg-black bg-opacity-50 p-8 rounded-lg text-center">
-                <h2 className="text-4xl font-bold mb-4">Leticia & Junio</h2>
+                <h2 className="text-4xl font-bold mb-4">Junio & Leticia</h2>
                 <p className="text-xl">09 Novembro 2024</p>
             </div>
         </div>
