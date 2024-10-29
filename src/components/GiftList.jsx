@@ -18,7 +18,7 @@ const initialGifts = [
     { id: 5, name: "Formas de Bolo", image: "/formas de bolo.jpg", available: 3 },
     { id: 6, name: "Jogo de Pratos", image: "/jogo de pratos.jpg", available: 3 },
     { id: 7, name: "Jogo de Sobremesa", image: "/jogo de sobremesa.jpg", available: 3 },
-    { id: 8, name: "Jogo de Talheres", image: "/Jogo de talheres.jpg", available: 3 },
+    { id: 8, name: "Jogo de Talheres", image: "/jogo de talheres.jpg", available: 3 },
     { id: 9, name: "Jogo de Trave", image: "/jogotrave.jpg", available: 3 },
     { id: 10, name: "Jogo de Vasilhas", image: "/jogovasilhas.jpg", available: 3 },
     { id: 11, name: "Lixeira Inox", image: "/lixeira inox.jpg", available: 3 },
@@ -28,7 +28,6 @@ const initialGifts = [
     { id: 15, name: "Travessas", image: "/travessas.jpg", available: 5 },
     { id: 16, name: "Vidro", image: "/vidro.jpg", available: 3 },
     { id: 17, name: "Xícaras", image: "/xicaras.jpg", available: 3 },
-    { id: 18, name: "teste", image: "/xicaras.jpg", available: 50 }
 ];
 
 // Estilo para o modal do Material-UI
