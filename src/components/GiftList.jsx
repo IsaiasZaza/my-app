@@ -12,21 +12,21 @@ import Image from "next/image";
 // Dados iniciais dos presentes
 const initialGifts = [
     { id: 1, name: "Armazenamento", image: "/aramazenamento.jpg", available: 3 },
-    { id: 2, name: "Bolo", image: "/bolo.jpg", available: 3 },
+    { id: 2, name: "Forma de bolo", image: "/bolo.jpg", available: 3 },
     { id: 3, name: "Copos", image: "/copos.jpg", available: 3 },
     { id: 4, name: "Escorredor", image: "/escorredor.jpg", available: 3 },
     { id: 5, name: "Formas de Bolo", image: "/formas de bolo.jpg", available: 3 },
     { id: 6, name: "Jogo de Pratos", image: "/jogo de pratos.jpg", available: 3 },
     { id: 7, name: "Jogo de Sobremesa", image: "/jogo de sobremesa.jpg", available: 3 },
     { id: 8, name: "Jogo de Talheres", image: "/jogo de talheres.jpg", available: 3 },
-    { id: 9, name: "Jogo de Trave", image: "/jogotrave.jpg", available: 3 },
+    { id: 9, name: "Jogo de Travessa", image: "/jogotrave.jpg", available: 3 },
     { id: 10, name: "Jogo de Vasilhas", image: "/jogovasilhas.jpg", available: 3 },
     { id: 11, name: "Lixeira Inox", image: "/lixeira inox.jpg", available: 3 },
     { id: 12, name: "Medidora", image: "/medidora.jpg", available: 5 },
-    { id: 13, name: "Temperos", image: "/temperos.jpg", available: 5 },
+    { id: 13, name: "Porta temperos", image: "/temperos.jpg", available: 5 },
     { id: 14, name: "Tigela", image: "/tigeja.jpg", available: 5 },
     { id: 15, name: "Travessas", image: "/travessas.jpg", available: 5 },
-    { id: 16, name: "Vidro", image: "/vidro.jpg", available: 3 },
+    { id: 16, name: "Tigela de vidro", image: "/vidro.jpg", available: 3 },
     { id: 17, name: "Xícaras", image: "/xicaras.jpg", available: 3 },
 ];
 
