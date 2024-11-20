@@ -1,14 +1,14 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import { motion } from "framer-motion";
 import { Modal, Box, Typography, Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
+import { FaGift, FaCheck, FaTimes } from "react-icons/fa";
 import "@fontsource/roboto";
-import Image from "next/image";
 
-// Estilo para o modal do Material-UI
 const modalStyle = {
     position: "absolute",
     top: "50%",
@@ -24,7 +24,7 @@ const modalStyle = {
 };
 
 export default function GiftList() {
-    const [gifts, setGifts] = useState([]); // Estado inicial vazio para os presentes
+    const [gifts, setGifts] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedGift, setSelectedGift] = useState(null);
     const [selectedQuantity, setSelectedQuantity] = useState("");
@@ -33,7 +33,6 @@ export default function GiftList() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Carregar os presentes da API após a montagem do componente
     useEffect(() => {
         const fetchGifts = async () => {
             try {
@@ -42,7 +41,7 @@ export default function GiftList() {
                     throw new Error("Erro ao carregar os presentes.");
                 }
                 const data = await response.json();
-                setGifts(data); // Substitui os presentes pelo retorno da API
+                setGifts(data);
                 setLoading(false);
             } catch (err) {
                 console.error(err);
@@ -85,50 +84,43 @@ export default function GiftList() {
         const whatsappNumber = "+5561986183812";
         const thankYouMessage = `Obrigado por escolher um presente para o casal! 🎉\n\nDetalhes:\n- Presente: ${selectedGift.nome}\n- Quantidade: ${selectedQuantity}\n- Nome: ${name}\n- Mensagem para o casal: ${message || "Nenhuma mensagem"}\n`;
 
-        // Link para envio no WhatsApp
         const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(thankYouMessage)}`;
         window.open(whatsappLink, "_blank");
 
-        // Atualizar o presente no banco de dados
         try {
-            const response = await fetch(`https://end-three.vercel.app/api/gift/${selectedGift.id}`, {
-                method: "PATCH", // Usando PATCH para atualizar a quantidade
+            const response = await fetch(`https://end-three.vercel.app/api/gifts/decrement/${selectedGift.id}`, {
+                method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    quantidade: selectedGift.quantidade - selectedQuantity, // Atualizando a quantidade
-                }),
+                body: JSON.stringify({ quantidade: parseInt(selectedQuantity) }),
             });
 
             if (!response.ok) {
-                throw new Error("Erro ao atualizar o presente.");
+                throw new Error("Erro ao atualizar a quantidade do presente.");
             }
 
-            // Atualiza os presentes localmente
+            const updatedGift = await response.json();
             const updatedGifts = gifts.map((gift) =>
                 gift.id === selectedGift.id
-                    ? { ...gift, quantidade: gift.quantidade - selectedQuantity }
+                    ? { ...gift, quantidade: updatedGift.quantidade }
                     : gift
             );
-
-            // Se a quantidade do presente chegar a zero, remova o presente da lista
-            const giftsAfterUpdate = updatedGifts.filter((gift) => gift.quantidade > 0);
-
-            setGifts(giftsAfterUpdate);
-            closeModal();
+            setGifts(updatedGifts);
         } catch (err) {
             console.error(err);
-            setError("Não foi possível atualizar o presente.");
+            setError("Erro ao atualizar a quantidade do presente.");
         }
+
+        closeModal();
     };
 
-    if (loading) return <div className="text-center">Carregando presentes...</div>;
-    if (error) return <div className="text-center text-red-500">{error}</div>;
+    if (loading) return <div className="text-center text-green-900 font-medium">Carregando presentes...</div>;
+    if (error) return <div className="text-center text-red-500 font-medium">{error}</div>;
 
     return (
-        <div className="max-w-5xl mx-auto p-8 space-y-8 font-roboto" id="giftList">
-            <h2 className="text-3xl font-bold text-center text-green-900">Lista de Presentes</h2>
+        <div className="max-w-5xl mx-auto p-8 space-y-8 font-roboto">
+            <h2 className="text-4xl font-bold text-center text-green-900">Lista de Presentes</h2>
             <Swiper
                 spaceBetween={16}
                 slidesPerView={1}
@@ -146,7 +138,7 @@ export default function GiftList() {
             >
                 <div className="swiper-button-prev text-green-900 -left-6 hover:text-green-700 transition-colors duration-200"></div>
                 <div className="swiper-button-next text-green-900 -right-6 hover:text-green-700 transition-colors duration-200"></div>
-                {gifts.map((gift) => (
+                {gifts.filter(gift => gift.quantidade > 0).map((gift) => (
                     <SwiperSlide key={gift.id}>
                         <motion.div
                             whileHover={{ scale: 1.05 }}
@@ -154,23 +146,29 @@ export default function GiftList() {
                             initial={{ opacity: 0, y: 50 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5 }}
-                            className={`bg-white rounded-lg shadow-lg overflow-hidden ${gift.quantidade <= 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className="relative bg-white rounded-lg shadow-lg overflow-hidden"
                         >
+                            {/* Quantidade no topo do card */}
+                            <div className="absolute top-2 left-2 bg-green-900 text-white text-xs px-3 py-1 rounded-full mt-2">
+                                {gift.quantidade} disponíveis
+                            </div>
+
                             <img width={300} height={300} src={gift.image} alt={gift.nome} className="w-full h-72 object-cover" />
                             <div className="p-4 text-center">
                                 <h3 className="text-xl font-semibold text-green-900">{gift.nome}</h3>
                                 <button
                                     onClick={() => openModal(gift)}
-                                    className="mt-4 px-6 py-2 bg-green-900 text-white rounded-full hover:bg-green-700 transition-colors duration-200"
-                                    disabled={gift.quantidade <= 0}
+                                    className="mx-auto mt-4 px-6 py-2 bg-green-900 text-white rounded-full hover:bg-green-700 flex items-center justify-center space-x-2 transition-colors duration-200"
                                 >
-                                    Escolher
+                                    <FaGift className="text-lg" />
+                                    <span>Escolher</span>
                                 </button>
                             </div>
                         </motion.div>
                     </SwiperSlide>
                 ))}
             </Swiper>
+
             {/* Modal de Detalhes */}
             <Modal open={modalIsOpen} onClose={closeModal}>
                 <Box sx={modalStyle}>
@@ -185,6 +183,7 @@ export default function GiftList() {
                                     variant="outlined"
                                     value={name}
                                     onChange={handleNameChange}
+                                    required
                                 />
                             </FormControl>
                             <FormControl fullWidth margin="normal">
@@ -218,6 +217,7 @@ export default function GiftList() {
                                 fullWidth
                                 onClick={handleSubmit}
                                 sx={{ mt: 3 }}
+                                startIcon={<FaCheck />}
                                 disabled={!name || !selectedQuantity}
                             >
                                 Confirmar Presente
@@ -229,6 +229,7 @@ export default function GiftList() {
                                 color="error"
                                 fullWidth
                                 sx={{ mt: 2 }}
+                                startIcon={<FaTimes />}
                             >
                                 Cancelar
                             </Button>

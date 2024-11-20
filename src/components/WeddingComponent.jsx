@@ -5,23 +5,27 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { FaHeart, FaCalendarAlt, FaGift } from "react-icons/fa";
+import "@fontsource/roboto"; // Fonte principal
 
-// Importa a fonte do Google Fonts
-import "@fontsource/roboto"; // ou "@fontsource/lora" / "@fontsource/merriweather" se preferir outra opção
-
-const images = [
-    "/Le.jpg",
-    "/lele.jpg",
-];
+const images = ["/Le.jpg", "/lele.jpg"];
 
 export default function WeddingComponent() {
     return (
-        <div className="font-roboto flex flex-col lg:flex-row items-center lg:items-start p-4 sm:p-8 lg:p-16 space-y-8 lg:space-y-0 lg:space-x-16 max-w-5xl mx-auto">
-            <div className="text-center lg:text-left lg:w-1/2 space-y-4 sm:space-y-6">
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl text-green-900 font-bold">Junio & Leticia</h1>
-                <p className="uppercase tracking-wider text-base sm:text-lg text-green-900">Chá de Panela</p>
-                <p className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-green-900">09 Novembro 2024</p>
-                <div className="mt-4 sm:mt-8 space-y-3 sm:space-y-5 text-green-900">
+        <div className="font-roboto flex flex-col lg:flex-row items-center lg:items-start p-4 sm:p-8 lg:p-16 space-y-8 lg:space-y-0 lg:space-x-16 max-w-6xl mx-auto bg-gray-50 mt-4">
+            {/* Texto principal */}
+            <div className="text-center lg:text-left lg:w-1/2 space-y-6 sm:space-y-8">
+                <h1 className="text-4xl sm:text-5xl text-green-700 font-bold flex items-center justify-center lg:justify-start space-x-2">
+                    <span>Junio & Leticia</span>
+                </h1>
+                <p className="uppercase tracking-wide text-lg text-green-900 flex items-center justify-center lg:justify-start space-x-2">
+                    <span>Chá de Panela</span>
+                </p>
+                <p className="text-2xl sm:text-3xl font-semibold text-green-900 flex items-center justify-center lg:justify-start space-x-2">
+                    <FaCalendarAlt className="text-green-600" />
+                    <span>09 Novembro 2024</span>
+                </p>
+                <div className="mt-4 sm:mt-8 space-y-4 sm:space-y-6 text-green-900">
                     <h2 className="text-lg sm:text-2xl font-semibold">Bem-vindos ao nosso chá de panela!</h2>
                     <p className="text-sm sm:text-lg">
                         Sim, é verdade! Vamos celebrar juntos o nosso chá de panela!!
@@ -34,7 +38,8 @@ export default function WeddingComponent() {
                     </p>
                 </div>
             </div>
-            
+
+            {/* Carrossel de imagens */}
             <div className="lg:w-1/2 flex justify-center lg:justify-end w-full">
                 <Swiper
                     spaceBetween={16}
