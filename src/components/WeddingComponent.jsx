@@ -15,7 +15,7 @@ export default function WeddingComponent() {
         <div className="font-roboto flex flex-col lg:flex-row items-center lg:items-start p-4 sm:p-8 lg:p-16 space-y-8 lg:space-y-0 lg:space-x-16 max-w-6xl mx-auto bg-gray-50 mt-4">
             {/* Texto principal */}
             <div className="text-center lg:text-left lg:w-1/2 space-y-6 sm:space-y-8">
-                <h1 className="text-4xl sm:text-5xl text-green-700 font-bold flex items-center justify-center lg:justify-start space-x-2">
+                <h1 className="text-3xl sm:text-5xl text-green-700 font-bold flex items-center justify-center lg:justify-start space-x-2">
                     <span>Junio & Leticia</span>
                 </h1>
                 <p className="uppercase tracking-wide text-lg text-green-900 flex items-center justify-center lg:justify-start space-x-2">
