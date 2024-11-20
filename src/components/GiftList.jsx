@@ -7,6 +7,7 @@ import "swiper/css";
 import { motion } from "framer-motion";
 import { Modal, Box, Typography, Button, TextField, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import { FaGift, FaCheck, FaTimes } from "react-icons/fa";
+import { ClipLoader } from "react-spinners"; // Importa o spinner
 import "@fontsource/roboto";
 
 const modalStyle = {
@@ -115,7 +116,12 @@ export default function GiftList() {
         closeModal();
     };
 
-    if (loading) return <div className="text-center text-green-900 font-medium">Carregando presentes...</div>;
+    if (loading)
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <ClipLoader size={50} color="#065f46" loading={loading} />
+            </div>
+        );
     if (error) return <div className="text-center text-red-500 font-medium">{error}</div>;
 
     return (
@@ -130,46 +136,46 @@ export default function GiftList() {
                 }}
                 loop={true}
                 navigation={{
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
                 }}
                 modules={[Navigation]}
                 className="relative flex justify-center"
             >
                 <div className="swiper-button-prev text-green-900 -left-6 hover:text-green-700 transition-colors duration-200"></div>
                 <div className="swiper-button-next text-green-900 -right-6 hover:text-green-700 transition-colors duration-200"></div>
-                {gifts.filter(gift => gift.quantidade > 0).map((gift) => (
-                    <SwiperSlide key={gift.id}>
-                        <motion.div
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            initial={{ opacity: 0, y: 50 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5 }}
-                            className="relative bg-white rounded-lg shadow-lg overflow-hidden"
-                        >
-                            {/* Quantidade no topo do card */}
-                            <div className="absolute top-2 left-2 bg-green-900 text-white text-xs px-3 py-1 rounded-full mt-2">
-                                {gift.quantidade} disponíveis
-                            </div>
+                {gifts
+                    .filter((gift) => gift.quantidade > 0)
+                    .map((gift) => (
+                        <SwiperSlide key={gift.id}>
+                            <motion.div
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                initial={{ opacity: 0, y: 50 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5 }}
+                                className="relative bg-white rounded-lg shadow-lg overflow-hidden"
+                            >
+                                {/* Quantidade no topo do card */}
+                                <div className="absolute top-2 left-2 bg-green-900 text-white text-xs px-3 py-1 rounded-full mt-2">
+                                    {gift.quantidade} disponíveis
+                                </div>
 
-                            <img width={300} height={300} src={gift.image} alt={gift.nome} className="w-full h-72 object-cover" />
-                            <div className="p-4 text-center">
-                                <h3 className="text-xl font-semibold text-green-900">{gift.nome}</h3>
-                                <button
-                                    onClick={() => openModal(gift)}
-                                    className="mx-auto mt-4 px-6 py-2 bg-green-900 text-white rounded-full hover:bg-green-700 flex items-center justify-center space-x-2 transition-colors duration-200"
-                                >
-                                    <FaGift className="text-lg" />
-                                    <span>Escolher</span>
-                                </button>
-                            </div>
-                        </motion.div>
-                    </SwiperSlide>
-                ))}
+                                <img width={300} height={300} src={gift.image} alt={gift.nome} className="w-full h-72 object-cover" />
+                                <div className="p-4 text-center">
+                                    <h3 className="text-xl font-semibold text-green-900">{gift.nome}</h3>
+                                    <button
+                                        onClick={() => openModal(gift)}
+                                        className="mx-auto mt-4 px-6 py-2 bg-green-900 text-white rounded-full hover:bg-green-700 flex items-center justify-center space-x-2 transition-colors duration-200"
+                                    >
+                                        <FaGift className="text-lg" />
+                                        <span>Escolher</span>
+                                    </button>
+                                </div>
+                            </motion.div>
+                        </SwiperSlide>
+                    ))}
             </Swiper>
-
-            {/* Modal de Detalhes */}
             <Modal open={modalIsOpen} onClose={closeModal}>
                 <Box sx={modalStyle}>
                     {selectedGift && (
