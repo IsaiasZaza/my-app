@@ -125,7 +125,7 @@ export default function GiftList() {
     if (error) return <div className="text-center text-red-500 font-medium">{error}</div>;
 
     return (
-        <div className="max-w-5xl mx-auto p-8 space-y-8 font-roboto">
+        <div className="max-w-5xl mx-auto p-8 space-y-8 font-roboto" name="GiftList">
             <h2 className="text-3xl font-bold text-center text-green-900">Lista de Presentes</h2>
             <Swiper
                 spaceBetween={16}

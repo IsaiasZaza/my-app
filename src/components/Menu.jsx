@@ -90,7 +90,7 @@ const Menu = () => {
                 {/* Navigation Links */}
                 <nav className="space-x-8 text-sm font-semibold text-green-900">
                     <ScrollLink
-                        to="giftList"
+                        to="GiftList"
                         smooth={true}
                         duration={500}
                         className="hover:text-green-700 transition-colors cursor-pointer"
