@@ -82,7 +82,7 @@ export default function GiftList() {
     };
 
     const handleSubmit = async () => {
-        const whatsappNumber = "+5561986183812";
+        const whatsappNumber = "+5561992443666";
         const thankYouMessage = `Obrigado por escolher um presente para o casal! 🎉\n\nDetalhes:\n- Presente: ${selectedGift.nome}\n- Quantidade: ${selectedQuantity}\n- Nome: ${name}\n- Mensagem para o casal: ${message || "Nenhuma mensagem"}\n`;
 
         const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(thankYouMessage)}`;
