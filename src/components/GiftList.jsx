@@ -125,8 +125,8 @@ export default function GiftList() {
     if (error) return <div className="text-center text-red-500 font-medium">{error}</div>;
 
     return (
-        <div className="max-w-5xl mx-auto p-8 space-y-8 font-roboto" name="GiftList">
-            <h2 className="text-3xl font-bold text-center text-green-900">Lista de Presentes</h2>
+        <div className="max-w-5xl mx-auto p-8 space-y-8" name="GiftList">
+            <h2 className="text-3xl font-bold text-center text-slate-700">Lista de Presentes</h2>
             <Swiper
                 spaceBetween={16}
                 slidesPerView={1}
@@ -142,8 +142,8 @@ export default function GiftList() {
                 modules={[Navigation]}
                 className="relative flex justify-center"
             >
-                <div className="swiper-button-prev text-green-900 -left-6 hover:text-green-700 transition-colors duration-200"></div>
-                <div className="swiper-button-next text-green-900 -right-6 hover:text-green-700 transition-colors duration-200"></div>
+                <div className="swiper-button-prev text-slate-700  -left-6 hover:text-[#A66A42]  transition-colors duration-200"></div>
+                <div className="swiper-button-next text-slate-700  -right-6 hover:text-[#A66A42]  transition-colors duration-200"></div>
                 {gifts
                     .filter((gift) => gift.quantidade > 0)
                     .map((gift) => (
@@ -157,16 +157,16 @@ export default function GiftList() {
                                 className="relative bg-white rounded-lg shadow-lg overflow-hidden"
                             >
                                 {/* Quantidade no topo do card */}
-                                <div className="absolute top-2 left-2 bg-green-900 text-white text-xs px-3 py-1 rounded-full mt-2">
+                                <div className="absolute top-2 left-2 bg-[#A66A42]  text-white text-xs px-3 py-1 rounded-full mt-2">
                                     {gift.quantidade} disponíveis
                                 </div>
 
                                 <img width={300} height={300} src={gift.image} alt={gift.nome} className="w-full h-72 object-cover" />
                                 <div className="p-4 text-center">
-                                    <h3 className="text-xl font-semibold text-green-900">{gift.nome}</h3>
+                                    <h3 className="text-xl font-semibold text-slate-700 ">{gift.nome}</h3>
                                     <button
                                         onClick={() => openModal(gift)}
-                                        className="mx-auto mt-4 px-6 py-2 bg-green-900 text-white rounded-full hover:bg-green-700 flex items-center justify-center space-x-2 transition-colors duration-200"
+                                        className="mx-auto mt-4 px-6 py-2 bg-[#A66A42]  text-white rounded-full hover:bg-[#eb965d] flex items-center justify-center space-x-2 transition-colors duration-200"
                                     >
                                         <FaGift className="text-lg" />
                                         <span>Escolher</span>

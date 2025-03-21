@@ -3,64 +3,67 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css/navigation";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
-import { FaHeart, FaCalendarAlt, FaGift } from "react-icons/fa";
-import "@fontsource/roboto"; // Fonte principal
+import { Autoplay, Pagination } from "swiper/modules";
+import { FaCalendarAlt } from "react-icons/fa";
+import { motion } from "framer-motion";
 
-const images = ["/Le.jpg", "/lele.jpg"];
+const images = ["/cs.jpg", "/cs2.jpg"];
 
 export default function WeddingComponent() {
     return (
-        <div className="font-roboto flex flex-col lg:flex-row items-center lg:items-start p-4 sm:p-8 lg:p-16 space-y-8 lg:space-y-0 lg:space-x-16 max-w-6xl mx-auto bg-gray-50 mt-4">
-            {/* Texto principal */}
-            <div className="text-center lg:text-left lg:w-1/2 space-y-6 sm:space-y-8">
-                <h1 className="text-3xl sm:text-5xl text-green-700 font-bold flex items-center justify-center lg:justify-start space-x-2">
-                    <span>Junio & Leticia</span>
-                </h1>
-                <p className="uppercase tracking-wide text-lg text-green-900 flex items-center justify-center lg:justify-start space-x-2">
-                    <span>Chá de Panela</span>
-                </p>
-                <p className="text-2xl sm:text-3xl font-semibold text-green-900 flex items-center justify-center lg:justify-start space-x-2">
-                    <FaCalendarAlt className="text-green-600" />
-                    <span>09 Novembro 2024</span>
-                </p>
-                <div className="mt-4 sm:mt-8 space-y-4 sm:space-y-6 text-green-900">
-                    <h2 className="text-lg sm:text-2xl font-semibold">Bem-vindos ao nosso chá de panela!</h2>
-                    <p className="text-sm sm:text-lg">
-                        Sim, é verdade! Vamos celebrar juntos o nosso chá de panela!!
-                    </p>
-                    <p className="text-sm sm:text-lg">
-                        Gostaríamos muito de contar com a sua presença e, se desejar, com um presente especial para nos ajudar a começar essa nova fase juntos.
-                    </p>
-                    <p className="text-sm sm:text-lg">
-                        Aproveite da web e a gente se encontra em breve, muitos beijos!
-                    </p>
-                </div>
-            </div>
-
-            {/* Carrossel de imagens */}
-            <div className="lg:w-1/2 flex justify-center lg:justify-end w-full">
-                <Swiper
-                    spaceBetween={16}
-                    slidesPerView={1}
-                    loop={true}
-                    autoplay={{ delay: 3000, disableOnInteraction: false }}
-                    pagination={{ clickable: true }}
-                    modules={[Autoplay, Pagination]}
-                    className="w-full sm:w-3/4 lg:w-4/5"
+        <section className="font-poppins px-6 sm:px-12 lg:px-20 py-32 max-w-7xl mx-auto">
+            <div className="flex flex-col lg:flex-row items-center lg:items-start space-y-16 lg:space-y-0 lg:space-x-20">
+                
+                {/* Texto principal */}
+                <motion.div 
+                    className="text-center lg:text-left lg:w-1/2 max-w-2xl space-y-8"
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
                 >
-                    {images.map((image, index) => (
-                        <SwiperSlide key={index}>
-                            <img
-                                src={image}
-                                alt={`Foto ${index + 1} de Leticia e Junio`}
-                                className="rounded-lg shadow-lg w-full h-64 sm:h-80 md:h-[500px] object-cover"
-                            />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
+                    <h1 className="text-5xl sm:text-6xl text-[#A66A42] font-bold drop-shadow-md">Larissa & João </h1>
+                    <p className="uppercase tracking-wide text-xl text-[#A66A42] font-medium">Chá de Panela</p>
+                    <p className="text-3xl sm:text-4xl font-semibold text-[#A66A42] flex items-center gap-3">
+                        <FaCalendarAlt className="text-[#A66A42]" />
+                        09 Novembro 2024
+                    </p>
+
+                    <div className="mt-6 space-y-6 text-[#5E4736] text-lg sm:text-xl leading-relaxed">
+                        <h2 className="text-2xl font-semibold text-[#A66A42]">Bem-vindos ao nosso chá de panela!</h2>
+                        <p>Sim, é verdade! Vamos celebrar juntos esse momento especial!</p>
+                        <p>Gostaríamos muito de contar com a sua presença e, se desejar, com um presente especial para nos ajudar a começar essa nova fase juntos.</p>
+                        <p>Com carinho, João & Larissa. Nos vemos em breve!</p>
+                    </div>
+                </motion.div>
+
+                {/* Carrossel de imagens */}
+                <motion.div 
+                    className="lg:w-1/2 w-full flex justify-center"
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                >
+                    <Swiper
+                        spaceBetween={20}
+                        slidesPerView={1}
+                        loop={true}
+                        autoplay={{ delay: 3500, disableOnInteraction: false }}
+                        pagination={{ clickable: true }}
+                        modules={[Autoplay, Pagination]}
+                        className="w-full sm:w-3/4 lg:w-4/5"
+                    >
+                        {images.map((image, index) => (
+                            <SwiperSlide key={index}>
+                                <img
+                                    src={image}
+                                    alt={`Imagem ${index + 1} do Chá de Panela de João e Larissa`}
+                                    className="rounded-2xl shadow-xl w-full h-72 sm:h-96 md:h-[500px] object-cover"
+                                />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </motion.div>
             </div>
-        </div>
+        </section>
     );
 }

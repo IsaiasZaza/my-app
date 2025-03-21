@@ -1,17 +1,29 @@
+"use client";
+
+import { useState } from "react";
+import LoadingScreen from "@/components/LoadingScreen";
 import Footer from "@/components/Footer";
-import GiftApp from "@/components/GiftApp";
 import GiftList from "@/components/GiftList";
+import HoneymoonDonation from "@/components/HoneymoonDonation";
 import Menu from "@/components/Menu";
-import ParallaxSection from "@/components/ParallaxSection";
 import WeddingComponent from "@/components/WeddingComponent";
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+
   return (
     <>
-      <Menu />
-      <WeddingComponent />
-      <GiftList />
-      <Footer />
+      {loading ? (
+        <LoadingScreen onFinish={() => setLoading(false)} />
+      ) : (
+        <>
+          <Menu />
+          <WeddingComponent />
+          <HoneymoonDonation />
+          <GiftList />
+          <Footer />
+        </>
+      )}
     </>
   );
 }

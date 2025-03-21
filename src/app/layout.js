@@ -1,30 +1,21 @@
-import localFont from "next/font/local";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  variable: "--font-poppins",
 });
 
 export const metadata = {
-  title: "Junio & Leticia",
-  description: "Junio & Leticia",
+  title: "Larissa & João",
+  description: "Larissa & João",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt-BR">
-      <body
-        className="bg-gray-50"
-      >
-        {children}
-      </body>
+    <html lang="pt-br" className={poppins.variable}>
+      <body className="font-poppins bg-[#FBEFE4]">{children}</body>
     </html>
   );
 }
