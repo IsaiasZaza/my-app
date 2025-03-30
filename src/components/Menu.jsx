@@ -15,6 +15,12 @@ const Menu = () => {
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
+
+    const handleOpenLogin = () => setOpenLoginModal(true);
+    const handleCloseLogin = () => setOpenLoginModal(false);
+    const handleOpenAddGiftModal = () => setOpenAddGiftModal(true);
+    const handleCloseAddGiftModal = () => setOpenAddGiftModal(false);
+
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
@@ -24,28 +30,65 @@ const Menu = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const handleLogin = async () => {
+    const handleLogin = async (e) => {
+        e.preventDefault();
+
+
         try {
-            const response = await fetch("https://crud-usuario.vercel.app/api/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
+            const response = await fetch('https://end-three.vercel.app/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(loginData),
             });
-            const data = await response.json();
+
             if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('token', data.token);
                 setIsAuthenticated(true);
+                setSnackbarMessage('Login realizado com sucesso!');
+                setSnackbarSeverity('success');
                 setOpenLoginModal(false);
-                setSnackbarMessage("Login realizado com sucesso!");
-                setSnackbarSeverity("success");
+                handleOpenAddGiftModal();
             } else {
-                setSnackbarMessage(data.message || "Erro ao fazer login");
-                setSnackbarSeverity("error");
+                setSnackbarMessage('Credenciais inválidas! Tente novamente.');
+                setSnackbarSeverity('error');
             }
         } catch (error) {
-            setSnackbarMessage("Erro de conexão com o servidor");
-            setSnackbarSeverity("error");
+            console.error('Erro ao realizar login:', error);
+            setSnackbarMessage('Erro ao realizar login! Tente novamente mais tarde.');
+            setSnackbarSeverity('error');
         } finally {
-            setOpenSnackbar(true);
+            setOpenSnackbar(true); // Exibe a Snackbar de feedback
+        }
+    };
+
+    const handleCreateGift = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('https://end-three.vercel.app/api/gift', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                },
+                body: JSON.stringify(giftData),
+            });
+
+            if (response.ok) {
+                setSnackbarMessage('Presente criado com sucesso!');
+                setSnackbarSeverity('success');
+                setGiftData({ nome: '', quantidade: 0, image: '' });
+                setOpenAddGiftModal(false);
+            } else {
+                setSnackbarMessage('Erro ao criar presente. Tente novamente.');
+                setSnackbarSeverity('error');
+            }
+        } catch (error) {
+            console.error('Erro ao criar presente:', error);
+            setSnackbarMessage('Erro ao criar presente! Tente novamente mais tarde.');
+            setSnackbarSeverity('error');
+        } finally {
+            setOpenSnackbar(true); // Exibe a Snackbar de feedback
         }
     };
 
@@ -59,21 +102,21 @@ const Menu = () => {
                         to="GiftList"
                         smooth={true}
                         duration={500}
-                        className="hover:text-green-400 transition-colors cursor-pointer"
+                        className="hover:text-[#da8b56] transition-colors cursor-pointer"
                     >
                         Presentes
                     </ScrollLink>
                     {!isAuthenticated ? (
                         <button
                             onClick={() => setOpenLoginModal(true)}
-                            className="focus:outline-none hover:text-green-400 transition-colors"
+                            className="focus:outline-none hover:text-[#da8b56] transition-colors"
                         >
                             Login
                         </button>
                     ) : (
                         <button
                             onClick={() => setOpenAddGiftModal(true)}
-                            className="focus:outline-none hover:text-green-400 transition-colors"
+                            className="focus:outline-none hover:text-[#da8b56] transition-colors"
                         >
                             Adicionar Presente
                         </button>
@@ -81,28 +124,99 @@ const Menu = () => {
                 </nav>
             </div>
 
-            {/* Modal de Login */}
-            <Modal open={openLoginModal} onClose={() => setOpenLoginModal(false)}>
-                <Box className="bg-white p-6 rounded-lg shadow-lg w-80 mx-auto mt-20">
-                    <h2 className="text-lg font-bold mb-4">Login</h2>
-                    <TextField
-                        label="Email"
-                        fullWidth
-                        value={loginData.email}
-                        onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-                        className="mb-4"
-                    />
-                    <TextField
-                        label="Senha"
-                        type="password"
-                        fullWidth
-                        value={loginData.password}
-                        onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                        className="mb-4"
-                    />
-                    <Button variant="contained" color="primary" fullWidth onClick={handleLogin}>
-                        Entrar
-                    </Button>
+            <Modal open={openLoginModal} onClose={handleCloseLogin}>
+                <Box className="flex items-center justify-center min-h-screen p-4">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-center relative">
+                        <button
+                            onClick={handleCloseLogin}
+                            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none"
+                            aria-label="Fechar"
+                        >
+                            ✕
+                        </button>
+                        <h2 className="text-2xl font-bold text-[#A66A42] mb-4">Login</h2>
+                        <form onSubmit={handleLogin}>
+                            <TextField
+                                fullWidth
+                                margin="normal"
+                                label="Email"
+                                type="email"
+                                value={loginData.email}
+                                onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+                                required
+                            />
+                            <TextField
+                                fullWidth
+                                margin="normal"
+                                label="Senha"
+                                type="password"
+                                value={loginData.password}
+                                onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                                required
+                            />
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                className="mt-4 bg-[#A66A42] *:hover:first-letter:first-line:marker:selection:file:placeholder:backdrop:before:focus:outline-none focus:ring-2 focus:ring-[#A66A42] focus:ring-opacity-50"
+                                style={{ backgroundColor: "#A66A42" }}
+                            >
+                                Entrar
+                            </Button>
+                        </form>
+                    </div>
+                </Box>
+            </Modal>
+            <Modal open={openAddGiftModal} onClose={handleCloseAddGiftModal}>
+                <Box className="flex items-center justify-center min-h-screen p-4">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-center relative">
+                        <button
+                            onClick={handleCloseAddGiftModal}
+                            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none"
+                            aria-label="Fechar"
+                        >
+                            ✕
+                        </button>
+                        <h2 className="text-2xl font-bold text-[#A66A42] mb-4">Adicionar Presente</h2>
+                        <form onSubmit={handleCreateGift}>
+                            <TextField
+                                fullWidth
+                                margin="normal"
+                                label="Nome do Presente"
+                                value={giftData.nome}
+                                onChange={(e) => setGiftData({ ...giftData, nome: e.target.value })}
+                                required
+                            />
+                            <TextField
+                                fullWidth
+                                margin="normal"
+                                label="Quantidade"
+                                type="number"
+                                value={giftData.quantidade}
+                                onChange={(e) => setGiftData({ ...giftData, quantidade: Number(e.target.value) })}
+                                required
+                            />
+                            <TextField
+                                fullWidth
+                                margin="normal"
+                                label="Imagem (URL)"
+                                value={giftData.image}
+                                onChange={(e) => setGiftData({ ...giftData, image: e.target.value })}
+                                required
+                            />
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                className="mt-4 bg-[#A66A42] *:hover:first-letter:first-line:marker:selection:file:placeholder:backdrop:before:focus:outline-none focus:ring-2 focus:ring-[#A66A42] focus:ring-opacity-50"
+                                style={{ backgroundColor: "#A66A42" }}
+                            >
+                                Adicionar Presente
+                            </Button>
+                        </form>
+                    </div>
                 </Box>
             </Modal>
 

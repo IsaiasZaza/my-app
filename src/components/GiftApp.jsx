@@ -51,7 +51,7 @@ const GiftApp = () => {
                         >
                             ✕
                         </button>
-                        <h2 className="text-2xl font-bold text-green-900 mb-4">Adicionar Presente</h2>
+                        <h2 className="text-2xl font-bold text-[#da8b56] mb-4">Adicionar Presente</h2>
                         <form onSubmit={handleCreateGift}>
                             <TextField
                                 fullWidth

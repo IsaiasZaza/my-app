@@ -82,7 +82,7 @@ export default function GiftList() {
     };
 
     const handleSubmit = async () => {
-        const whatsappNumber = "+5561992443666";
+        const whatsappNumber = "+5561986526057";
         const thankYouMessage = `Obrigado por escolher um presente para o casal! 🎉\n\nDetalhes:\n- Presente: ${selectedGift.nome}\n- Quantidade: ${selectedQuantity}\n- Nome: ${name}\n- Mensagem para o casal: ${message || "Nenhuma mensagem"}\n`;
 
         const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(thankYouMessage)}`;
@@ -180,7 +180,7 @@ export default function GiftList() {
                 <Box sx={modalStyle}>
                     {selectedGift && (
                         <div>
-                            <Typography variant="h5" component="h2" className="text-green-900 font-bold mb-4">
+                            <Typography variant="h5" component="h2" className="text-[#da8b56] font-bold mb-4">
                                 {selectedGift.nome}
                             </Typography>
                             <FormControl fullWidth margin="normal">
