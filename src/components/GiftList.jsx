@@ -126,56 +126,40 @@ export default function GiftList() {
 
     return (
         <div className="max-w-5xl mx-auto p-8 space-y-8" name="GiftList">
+            <div className="swiper-button-prev text-slate-700  -left-6 hover:text-[#A66A42]  transition-colors duration-200"></div>
+            <section className="text-center my-8 px-4">
+    <div className="flex justify-center">
+        <img 
+            src="/paleta.jpg" 
+            alt="Paleta de Cores" 
+            className="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-lg rounded-lg shadow-lg"
+        />
+    </div>
+</section>
             <h2 className="text-3xl font-bold text-center text-slate-700">Lista de Presentes</h2>
-            <Swiper
-                spaceBetween={16}
-                slidesPerView={1}
-                breakpoints={{
-                    640: { slidesPerView: 2 },
-                    1024: { slidesPerView: 3 },
-                }}
-                loop={true}
-                navigation={{
-                    nextEl: ".swiper-button-next",
-                    prevEl: ".swiper-button-prev",
-                }}
-                modules={[Navigation]}
-                className="relative flex justify-center"
-            >
-                <div className="swiper-button-prev text-slate-700  -left-6 hover:text-[#A66A42]  transition-colors duration-200"></div>
-                <div className="swiper-button-next text-slate-700  -right-6 hover:text-[#A66A42]  transition-colors duration-200"></div>
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
                 {gifts
                     .filter((gift) => gift.quantidade > 0)
                     .map((gift) => (
-                        <SwiperSlide key={gift.id}>
-                            <motion.div
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                initial={{ opacity: 0, y: 50 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5 }}
-                                className="relative bg-white rounded-lg shadow-lg overflow-hidden"
-                            >
-                                {/* Quantidade no topo do card */}
-                                <div className="absolute top-2 left-2 bg-[#A66A42]  text-white text-xs px-3 py-1 rounded-full mt-2">
-                                    {gift.quantidade} disponíveis
-                                </div>
-
-                                <img width={300} height={300} src={gift.image} alt={gift.nome} className="w-full h-72 object-cover" />
-                                <div className="p-4 text-center">
-                                    <h3 className="text-xl font-semibold text-slate-700 ">{gift.nome}</h3>
-                                    <button
-                                        onClick={() => openModal(gift)}
-                                        className="mx-auto mt-4 px-6 py-2 bg-[#A66A42]  text-white rounded-full hover:bg-[#eb965d] flex items-center justify-center space-x-2 transition-colors duration-200"
-                                    >
-                                        <FaGift className="text-lg" />
-                                        <span>Escolher</span>
-                                    </button>
-                                </div>
-                            </motion.div>
-                        </SwiperSlide>
+                        <li key={gift.id} className="bg-white rounded-lg shadow-lg overflow-hidden relative">
+                            {/* Quantidade no topo do card */}
+                            <div className="absolute top-2 left-2 bg-[#A66A42] text-white text-xs px-3 py-1 rounded-full mt-2">
+                                {gift.quantidade} disponíveis
+                            </div>
+                            <img width={300} height={300} src={gift.image} alt={gift.nome} className="w-full h-72 object-cover" />
+                            <div className="p-4 text-center">
+                                <h3 className="text-xl font-semibold text-slate-700">{gift.nome}</h3>
+                                <button
+                                    onClick={() => openModal(gift)}
+                                    className="mx-auto mt-4 px-6 py-2 bg-[#A66A42] text-white rounded-full hover:bg-[#eb965d] flex items-center justify-center space-x-2 transition-colors duration-200"
+                                >
+                                    <FaGift className="text-lg" />
+                                    <span>Escolher</span>
+                                </button>
+                            </div>
+                        </li>
                     ))}
-            </Swiper>
+            </ul>
             <Modal open={modalIsOpen} onClose={closeModal}>
                 <Box sx={modalStyle}>
                     {selectedGift && (
