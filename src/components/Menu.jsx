@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Modal, Box, TextField, Button, Snackbar, Alert } from "@mui/material";
 import { Link as ScrollLink } from "react-scroll";
+import { motion } from "framer-motion";
 
 const Menu = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -93,130 +94,261 @@ const Menu = () => {
     };
 
     return (
-        <header className={`fixed top-0 left-0 w-full transition-all duration-300 z-50 ${isScrolled ? "bg-gray-200 shadow-lg" : "bg-gray-50"}`}>
-            <div className="container mx-auto flex items-center justify-between p-4">
-                <div className={`text-2xl font-serif font-bold transition-all duration-300 ${isScrolled ? "text-[#744a2e]" : "text-[#A66A42]"}`}>L&J</div>
+        <header className={`fixed top-0 left-0 w-full transition-all duration-500 z-50 ${
+            isScrolled 
+                ? "bg-white/95 backdrop-blur-lg shadow-elegant border-b border-amber-200/30" 
+                : "bg-white/20 backdrop-blur-sm"
+        }`}>
+            <div className="container mx-auto flex items-center justify-between p-4 lg:px-8">
+                {/* Logo */}
+                <motion.div 
+                    className={`text-3xl font-serif font-bold transition-all duration-500 ${
+                        isScrolled ? "text-amber-800" : "text-amber-900 drop-shadow-lg"
+                    }`}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                >
+                    F&M
+                </motion.div>
 
-                <nav className={`space-x-8 text-sm font-semibold transition-all duration-300 ${isScrolled ? "text-[#744a2e]" : "text-[#A66A42] "}`}>
+                {/* Navigation */}
+                <nav className="flex items-center space-x-8">
                     <ScrollLink
                         to="GiftList"
                         smooth={true}
                         duration={500}
-                        className="hover:text-[#da8b56] transition-colors cursor-pointer"
+                        className={`text-sm font-semibold transition-all duration-300 hover:scale-105 ${
+                            isScrolled 
+                                ? "text-amber-800 hover:text-amber-600" 
+                                : "text-amber-900 hover:text-amber-700 drop-shadow-md"
+                        }`}
                     >
                         Presentes
                     </ScrollLink>
+                    
                     {!isAuthenticated ? (
-                        <button
+                        <motion.button
                             onClick={() => setOpenLoginModal(true)}
-                            className="focus:outline-none hover:text-[#da8b56] transition-colors"
+                            className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+                                isScrolled
+                                    ? "bg-amber-500 text-white hover:bg-amber-600 shadow-lg hover:shadow-xl"
+                                    : "bg-amber-500/90 text-white hover:bg-amber-600 shadow-lg backdrop-blur-sm border border-amber-400/30"
+                            }`}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                         >
                             Login
-                        </button>
+                        </motion.button>
                     ) : (
-                        <button
+                        <motion.button
                             onClick={() => setOpenAddGiftModal(true)}
-                            className="focus:outline-none hover:text-[#da8b56] transition-colors"
+                            className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+                                isScrolled
+                                    ? "bg-amber-500 text-white hover:bg-amber-600 shadow-lg hover:shadow-xl"
+                                    : "bg-amber-500/90 text-white hover:bg-amber-600 shadow-lg backdrop-blur-sm border border-amber-400/30"
+                            }`}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                         >
                             Adicionar Presente
-                        </button>
+                        </motion.button>
                     )}
                 </nav>
             </div>
 
             <Modal open={openLoginModal} onClose={handleCloseLogin}>
                 <Box className="flex items-center justify-center min-h-screen p-4">
-                    <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-center relative">
+                    <motion.div 
+                        className="bg-white/95 backdrop-blur-md rounded-3xl shadow-elegant-lg w-full max-w-md p-8 text-center relative border border-white/20"
+                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                    >
                         <button
                             onClick={handleCloseLogin}
-                            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none"
+                            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center transition-all duration-200"
                             aria-label="Fechar"
                         >
                             ✕
                         </button>
-                        <h2 className="text-2xl font-bold text-[#A66A42] mb-4">Login</h2>
-                        <form onSubmit={handleLogin}>
+                        
+                        <div className="mb-6">
+                            <div className="flex items-center justify-center mb-4">
+                                <div className="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full flex items-center justify-center">
+                                    <span className="text-white font-bold text-lg">F&M</span>
+                                </div>
+                            </div>
+                            <h2 className="text-3xl font-serif font-bold gradient-text">Login</h2>
+                            <p className="text-gray-600 mt-2">Acesse sua conta para gerenciar presentes</p>
+                        </div>
+                        
+                        <form onSubmit={handleLogin} className="space-y-4">
                             <TextField
                                 fullWidth
-                                margin="normal"
                                 label="Email"
                                 type="email"
                                 value={loginData.email}
                                 onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
                                 required
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        borderRadius: '12px',
+                                        '&:hover fieldset': {
+                                            borderColor: '#f59e0b',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: '#f59e0b',
+                                        },
+                                    },
+                                }}
                             />
                             <TextField
                                 fullWidth
-                                margin="normal"
                                 label="Senha"
                                 type="password"
                                 value={loginData.password}
                                 onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
                                 required
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        borderRadius: '12px',
+                                        '&:hover fieldset': {
+                                            borderColor: '#f59e0b',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: '#f59e0b',
+                                        },
+                                    },
+                                }}
                             />
                             <Button
                                 type="submit"
                                 variant="contained"
-                                color="primary"
                                 fullWidth
-                                className="mt-4 bg-[#A66A42] *:hover:first-letter:first-line:marker:selection:file:placeholder:backdrop:before:focus:outline-none focus:ring-2 focus:ring-[#A66A42] focus:ring-opacity-50"
-                                style={{ backgroundColor: "#A66A42" }}
+                                sx={{
+                                    background: 'linear-gradient(135deg, #f59e0b, #ea580c)',
+                                    borderRadius: '12px',
+                                    py: 1.5,
+                                    fontSize: '16px',
+                                    fontWeight: '600',
+                                    textTransform: 'none',
+                                    boxShadow: '0 4px 14px 0 rgba(245, 158, 11, 0.4)',
+                                    '&:hover': {
+                                        background: 'linear-gradient(135deg, #d97706, #c2410c)',
+                                        boxShadow: '0 6px 20px 0 rgba(245, 158, 11, 0.6)',
+                                    },
+                                }}
                             >
                                 Entrar
                             </Button>
                         </form>
-                    </div>
+                    </motion.div>
                 </Box>
             </Modal>
             <Modal open={openAddGiftModal} onClose={handleCloseAddGiftModal}>
                 <Box className="flex items-center justify-center min-h-screen p-4">
-                    <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6 text-center relative">
+                    <motion.div 
+                        className="bg-white/95 backdrop-blur-md rounded-3xl shadow-elegant-lg w-full max-w-md p-8 text-center relative border border-white/20"
+                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                    >
                         <button
                             onClick={handleCloseAddGiftModal}
-                            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none"
+                            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center transition-all duration-200"
                             aria-label="Fechar"
                         >
                             ✕
                         </button>
-                        <h2 className="text-2xl font-bold text-[#A66A42] mb-4">Adicionar Presente</h2>
-                        <form onSubmit={handleCreateGift}>
+                        
+                        <div className="mb-6">
+                            <div className="flex items-center justify-center mb-4">
+                                <div className="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full flex items-center justify-center">
+                                    <span className="text-white font-bold text-lg">🎁</span>
+                                </div>
+                            </div>
+                            <h2 className="text-3xl font-serif font-bold gradient-text">Adicionar Presente</h2>
+                            <p className="text-gray-600 mt-2">Adicione um novo item à lista de presentes</p>
+                        </div>
+                        
+                        <form onSubmit={handleCreateGift} className="space-y-4">
                             <TextField
                                 fullWidth
-                                margin="normal"
                                 label="Nome do Presente"
                                 value={giftData.nome}
                                 onChange={(e) => setGiftData({ ...giftData, nome: e.target.value })}
                                 required
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        borderRadius: '12px',
+                                        '&:hover fieldset': {
+                                            borderColor: '#f59e0b',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: '#f59e0b',
+                                        },
+                                    },
+                                }}
                             />
                             <TextField
                                 fullWidth
-                                margin="normal"
                                 label="Quantidade"
                                 type="number"
                                 value={giftData.quantidade}
                                 onChange={(e) => setGiftData({ ...giftData, quantidade: Number(e.target.value) })}
                                 required
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        borderRadius: '12px',
+                                        '&:hover fieldset': {
+                                            borderColor: '#f59e0b',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: '#f59e0b',
+                                        },
+                                    },
+                                }}
                             />
                             <TextField
                                 fullWidth
-                                margin="normal"
                                 label="Imagem (URL)"
                                 value={giftData.image}
                                 onChange={(e) => setGiftData({ ...giftData, image: e.target.value })}
                                 required
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        borderRadius: '12px',
+                                        '&:hover fieldset': {
+                                            borderColor: '#f59e0b',
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: '#f59e0b',
+                                        },
+                                    },
+                                }}
                             />
                             <Button
                                 type="submit"
                                 variant="contained"
-                                color="primary"
                                 fullWidth
-                                className="mt-4 bg-[#A66A42] *:hover:first-letter:first-line:marker:selection:file:placeholder:backdrop:before:focus:outline-none focus:ring-2 focus:ring-[#A66A42] focus:ring-opacity-50"
-                                style={{ backgroundColor: "#A66A42" }}
+                                sx={{
+                                    background: 'linear-gradient(135deg, #f59e0b, #ea580c)',
+                                    borderRadius: '12px',
+                                    py: 1.5,
+                                    fontSize: '16px',
+                                    fontWeight: '600',
+                                    textTransform: 'none',
+                                    boxShadow: '0 4px 14px 0 rgba(245, 158, 11, 0.4)',
+                                    '&:hover': {
+                                        background: 'linear-gradient(135deg, #d97706, #c2410c)',
+                                        boxShadow: '0 6px 20px 0 rgba(245, 158, 11, 0.6)',
+                                    },
+                                }}
                             >
                                 Adicionar Presente
                             </Button>
                         </form>
-                    </div>
+                    </motion.div>
                 </Box>
             </Modal>
 
