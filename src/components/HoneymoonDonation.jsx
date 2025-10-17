@@ -78,7 +78,7 @@ export default function HoneymoonDonation() {
                         <div className="relative bg-white/90 backdrop-blur-sm p-6 rounded-3xl shadow-elegant-lg border border-white/20">
                             <div className="relative w-64 h-64 sm:w-72 sm:h-72 rounded-2xl overflow-hidden">
                                 <Image 
-                                    src="/qr.png" 
+                                    src="/qqrr.png" 
                                     alt="QR Code para doação" 
                                     fill
                                     className="object-cover transition-transform duration-500 group-hover:scale-110"

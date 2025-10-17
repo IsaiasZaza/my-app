@@ -154,26 +154,27 @@ export default function GiftList() {
 
             {/* Color Palette Inspiration Section */}
             <motion.div 
-                className="mb-16"
+                className="mb-12"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-            >
-                <div className="text-center mb-8">
-                    <h3 className="text-2xl sm:text-3xl font-serif font-bold text-gray-800 mb-4">
-                        Paleta de Cores - Inspiração
-                    </h3>
-                    <p className="text-gray-600 text-lg">
-                        Nossa paleta de cores preferida para nossa nova casa
-                    </p>
-                </div>
-                
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-elegant overflow-hidden border border-white/20 p-8">
-                    <img 
-                        src="/paleta.jpg" 
-                        alt="Paleta de cores - Branco, Bege, Inox e Bambu" 
-                        className="w-full h-auto rounded-xl shadow-lg"
-                    />
+            >                
+                <div className="relative group">
+                    {/* Glow effect */}
+                    <div className="absolute -inset-1 bg-gradient-to-r from-amber-400 to-orange-500 rounded-2xl blur-md opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                    
+                    {/* Card container */}
+                    <div className="relative backdrop-blur-sm rounded-2xl overflow-hidden border border-white/30 p-4">
+                        <div className="flex justify-center">
+                            <div className="relative overflow-hidden rounded-xl transition-all duration-300">
+                                <img 
+                                    src="/paleta.jpg" 
+                                    alt="Paleta de cores - Branco, Bege, Inox e Bambu" 
+                                    className="w-full max-w-lg h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </motion.div>
 
