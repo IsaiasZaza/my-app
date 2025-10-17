@@ -47,14 +47,14 @@ export default function WeddingComponent() {
                         <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 text-amber-800">
                             <div className="flex items-center gap-3 bg-white/80 backdrop-blur-sm px-6 py-3 rounded-full shadow-elegant">
                                 <FaCalendarAlt className="text-amber-600 text-xl" />
-                                <span className="text-xl sm:text-2xl font-semibold"> - -</span>
-                                <span className="text-lg font-medium">Às - -</span>
+                                <span className="text-xl sm:text-2xl font-semibold">07 de dezembro</span>
+                                <span className="text-lg font-medium">às 12 horas</span>
                             </div>
                         </div>
                         
                         <div className="flex items-center justify-center lg:justify-start gap-3 bg-white/80 backdrop-blur-sm px-6 py-3 rounded-full shadow-elegant">
                             <FaMapMarkerAlt className="text-amber-600 text-xl" />
-                            <span className="text-lg font-semibold text-amber-800">Não decidimos ainda :)</span>
+                            <span className="text-lg font-semibold text-amber-800">Smse conjunto 2 lote 1 casa 2 - Setor de mansão Samambaia</span>
                         </div>
                     </div>
 
