@@ -152,6 +152,31 @@ export default function GiftList() {
                 </p>
             </motion.div>
 
+            {/* Color Palette Inspiration Section */}
+            <motion.div 
+                className="mb-16"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+            >
+                <div className="text-center mb-8">
+                    <h3 className="text-2xl sm:text-3xl font-serif font-bold text-gray-800 mb-4">
+                        Paleta de Cores - Inspiração
+                    </h3>
+                    <p className="text-gray-600 text-lg">
+                        Nossa paleta de cores preferida para nossa nova casa
+                    </p>
+                </div>
+                
+                <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-elegant overflow-hidden border border-white/20 p-8">
+                    <img 
+                        src="/paleta.jpg" 
+                        alt="Paleta de cores - Branco, Bege, Inox e Bambu" 
+                        className="w-full h-auto rounded-xl shadow-lg"
+                    />
+                </div>
+            </motion.div>
+
             {/* Gifts grid */}
             <motion.div 
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
